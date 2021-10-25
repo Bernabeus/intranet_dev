@@ -1,0 +1,373 @@
+<template>
+    <div>
+        <v-btn @click="openModal()" class="btn-blue">
+            <v-icon
+                small
+                style="margin-right: 3px;"
+            >
+                mdi-plus-box
+            </v-icon>
+            Nuevo
+        </v-btn>
+        <div>
+            <div v-if="show" class="modal__backdrop">
+                <div class="modal__backdrop" @click="closeModal()"></div>
+                <div class="modal__dialog">
+                    <div class="">
+                        <!--Formulario de Registro-->
+                        <form method="POST" @submit.prevent="submit">
+                            <div class="form-group" style="margin-top: 10px;">
+                                <div class="modal-header">
+                                    Registro de articulos
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!--NOMBRE -->
+                                        <label
+                                            for="NOMBRE"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Nombre
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="NOMBRE"
+                                                type="text"
+                                                class="form-control"
+                                                name="NOMBRE"
+                                                required
+                                                autocomplete="new-NOMBRE"
+                                                v-model="articulo.NOMBRE"
+                                            />
+                                        </div>
+
+                                        <!--Precio-->
+                                        <label
+                                            for="PRECIO"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Precio
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="PRECIO"
+                                                type="number"
+                                                class="form-control"
+                                                name="PRECIO"
+                                                required
+                                                autocomplete="new-PRECIO"
+                                                v-model="articulo.PRECIO"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!--Descripcion-->
+                                        <label
+                                            for="DESCRIPCION"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Descripción
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="DESCRIPCION"
+                                                type="text"
+                                                class="form-control"
+                                                name="DESCRIPCION"
+                                                required
+                                                autocomplete="new-DESCRIPCION"
+                                                v-model="articulo.DESCRIPCION"
+                                            />
+                                        </div>
+                                        <!--NSERIE -->
+                                        <label
+                                            for="NSERIE"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Número de Serie
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="NSERIE"
+                                                type="text"
+                                                class="form-control"
+                                                name="NSERIE"
+                                                autocomplete="new-NSERIE"
+                                                v-model="articulo.NSERIE"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!--Depreciación -->
+                                        <label
+                                            for="DEPRECIACION"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Depreciación
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="DEPRECIACION"
+                                                required
+                                                type="number"
+                                                class="form-control"
+                                                name="DEPRECIACION"
+                                                autocomplete="new-DEPRECIACION"
+                                                v-model="articulo.DEPRECIACION"
+                                            />
+                                        </div>
+
+                                        <!--Categoria-->
+                                        <label
+                                            for="CATEGORIA"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Categoría
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="CATEGORIA"
+                                                type="text"
+                                                class="form-control"
+                                                name="CATEGORIA"
+                                                required
+                                                autocomplete="new-CATEGORIA"
+                                                v-model="articulo.CATEGORIA"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal Success-->
+                                    <div>
+                                        <v-alert
+                                            v-if="success === true"
+                                            id="alertSuccess"
+                                            name="alertSuccess"
+                                            dismissible
+                                            type="success"
+                                            class="alert"
+                                            transition="scale-transition"
+                                        >
+                                            Articulo Registrado con exito
+                                        </v-alert>
+                                    </div>
+
+                                    <!--Buttons-->
+                                    <div
+                                        class="row modal-footer"
+                                        style="margin:12px"
+                                    >
+                                        <v-btn
+                                            @click="closeModal()"
+                                            style="text-transform: capitalize;"
+                                            class="btn-gray"
+                                        >
+                                            Cerrar
+                                        </v-btn>
+                                        <v-btn type="submit" class="btn-blue">
+                                            Guardar Artículo
+                                        </v-btn>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--modal error-->
+        <div v-if="showModalError" class="modal__backdrop">
+            <div class="modal__backdrop" @click="closeModalError()"></div>
+            <div class="modal__error">
+                <div class="modal__header card-header">
+                    {{ messageError }}
+                </div>
+                <div class="modal__body">
+                    <div style="display: flex; justify-content: flex-end;">
+                        <v-btn
+                            @click="closeModalError()"
+                            style="text-transform: capitalize;"
+                            class="btn-gray"
+                        >
+                            Cerrar
+                        </v-btn>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+
+export default {
+    name: "ArticuloForm",
+
+    data() {
+        return {
+            show: false,
+            showModalError: false,
+            messageError: "",
+            articulo: {},
+            errors: [],
+            success: false,
+            loaded: true,
+            modal: false,
+        };
+    },
+    mounted() {
+    },
+    methods: {
+        closeModal() {
+            this.show = false;
+            this.success = false;
+        },
+        openModal() {
+            this.show = true;
+        },
+        closeModalError() {
+            this.showModalError = false;
+            this.loaded = false;
+        },
+        openModalError(message) {
+            this.showModalError = true;
+            this.messageError = message;
+        },
+
+        submit() {
+            if (this.loaded) {
+                this.success = false;
+                this.errors = {};
+                axios.post("articulo", this.articulo).then(response => {
+                    this.articulo = {}; //limpiar inputs
+                    this.success = true;
+                    this.$emit("listar");
+                })
+                    .catch(error => {
+                        if (error.response.status === 422) {
+                            this.errors = error.response.data || [];
+                        }
+                    });
+            } else {
+                this.openModalError("Ocurrio un error");
+            }
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+.alert {
+    background-color: #4caf50;
+    border: none;
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+
+    &__backdrop {
+        background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    &__dialog {
+        background-color: #ffffff;
+        position: absolute;
+        max-width: 800px;
+        min-width: 600px;
+        margin: 50px auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        z-index: 2;
+        @media screen and (max-width: 992px) {
+            width: 90%;
+        }
+    }
+
+    &__error {
+        background-color: #ffffff;
+        position: absolute;
+        max-width: 400px;
+        min-width: 200px;
+        margin: 50px auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        z-index: 2;
+        @media screen and (max-width: 992px) {
+            width: 90%;
+        }
+    }
+
+    &__close {
+        width: 30px;
+        height: 30px;
+    }
+
+    &__header {
+        padding: 20px 20px 10px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    &__body {
+        padding: 10px 20px 10px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.btn-blue {
+    text-transform: capitalize;
+    color: #fff;
+    background-color: #2176bd !important;
+    border-color: #1f6fb2;
+    margin: 0 3px;
+}
+
+.btn-gray {
+    color: #fff;
+    background-color: #6c757d !important;
+    border-color: #6c757d;
+}
+</style>
