@@ -18,13 +18,13 @@ class ControllerArticulo extends Controller
             'CODUBICACION' => $request->CODUBICACION,
             'CODDETASIG' => $request->CODDETASIG,
             'CODDETBAJA' => $request->CODDETBAJA,
+            'CODCATEGORIA' => $request->CODCATEGORIA,
             'NOMBRE' => $request->NOMBRE,
             'PRECIO' => $request->PRECIO,
             'DESCRIPCION' => $request->DESCRIPCION,
             'DEPRECIACION' => $request->DEPRECIACION,
             'NSERIE' => $request->NSERIE,
             'ESTADO' => 1,
-            'CATEGORIA' => $request->CATEGORIA,
         ]);
     }
     public function index()

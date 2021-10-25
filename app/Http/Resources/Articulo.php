@@ -31,13 +31,13 @@ class Articulo extends JsonResource
             'CODUBICACION' => Ubicacion::find($this->CODUBICACION),
             'CODDETASIG' => $this->CODDETASIG,
             'CODDETBAJA' => $this->CODDETBAJA,
+            'CODCATEGORIA' => $this->CODCATEGORIA,
             'NOMBRE' => $this->NOMBRE,
             'PRECIO' => $this->PRECIO,
             'DEPRECIACION' => $this->DEPRECIACION,
             'DESCRIPCION' => $this->DESCRIPCION,
             'NSERIE' => $this->NSERIE,
             'ESTADO' => $this->ESTADO,
-            'CATEGORIA' => $this->CATEGORIA,
             'CUSTODIO' => $custodio,
         ];
     }
