@@ -9,11 +9,14 @@ class ControllerCategoria extends Controller
 {
     public function create(Request $request)
     {
+
         return  Categoria::create([
             'CODCATEGORIA' => $request->CODCATEGORIA,
             'NOMBRE' => $request->NOMBRE,
-            'PORC_DEPRECIACION' => $request->PORC_DEPRECIACION,
-            'DESCRIPCION' => $request->DESCRIPCION,
+            'PORCDEPRECIACION' => $request->PORCDEPRECIACION,
+            'CODCONTABLE' => $request->PORCDEPRECIACION,
+            'CODPRESENTACION' => $request->PORCDEPRECIACION,
+            'CATSUPERIOR' => $request->CATSUPERIOR,
         ]);
     }
     public function index()

@@ -114,13 +114,14 @@
                                     >Categoria</label
                                     >
                                     <div class="col-md-6">
-                                        <input
-                                            v-model="articulo.CATEGORIA"
-                                            type="text"
-                                            class="form-control"
-                                            id="CATEGORIA"
-                                            placeholder="Categoria"
-                                        />
+                                        <select required aria-required="true"
+                                                class="form-control"
+                                                name="CODCAT" id="CODCAT"
+                                                v-model="fields.CODCATEGORIA"
+                                        >
+                                            <option value="" disabled selected> seleccione una categoria...</option>
+                                            <option v-for="rol in roles" :value="categoria.CODCATEGORIA">{{ categoria.NOMBRE }}</option>
+                                        </select>
                                     </div>
                                 </div>
 
