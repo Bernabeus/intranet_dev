@@ -19,10 +19,12 @@ class ControllerArticulo extends Controller
             'CODDETASIG' => $request->CODDETASIG,
             'CODDETBAJA' => $request->CODDETBAJA,
             'CODCATEGORIA' => $request->CODCATEGORIA,
+            'CODIGOPRESENTACION' => $request->CODIGOPRESENTACION,
+            'CODIGOCONTABLE' => $request->CODIGOCONTABLE,
             'NOMBRE' => $request->NOMBRE,
             'PRECIO' => $request->PRECIO,
             'DESCRIPCION' => $request->DESCRIPCION,
-            'DEPRECIACION' => $request->DEPRECIACION,
+            'FECHAOBTENCION' => $request->FECHAOBTENCION,
             'NSERIE' => $request->NSERIE,
             'ESTADO' => 1,
         ]);

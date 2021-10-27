@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Articulo extends Model
 {
-    protected $fillable =['CODUBICACION','CODDETASIG','CODDETBAJA','CODCATEGORIA','NOMBRE','PRECIO','DEPRECIACION','DESCRIPCION','NSERIE','ESTADO'];
+    protected $fillable =['CODUBICACION','CODDETASIG','CODDETBAJA','CODCATEGORIA','NOMBRE','PRECIO','DESCRIPCION','NSERIE','ESTADO','CODIGOCONTABLE','CODIGOPRESENTACION','FECHAOBTENCION'];
     protected $primaryKey = 'CODARTICULO';
     public $timestamps = false;
     protected $table = 'articulo';
