@@ -100,42 +100,85 @@
                                     </div>
 
                                     <div class="row">
-                                        <!--Depreciación -->
+                                        <!--CodigoContable -->
                                         <label
-                                            for="DEPRECIACION"
+                                            for="CODIGOCONTABLE"
                                             class="col-md-2 col-form-label text-md-right"
                                         >
-                                            Depreciación
+                                            Codigo Contable
                                         </label>
                                         <div class="col-md-4">
                                             <input
-                                                id="DEPRECIACION"
+                                                id="CODIGOCONTABLE"
                                                 required
                                                 type="number"
                                                 class="form-control"
-                                                name="DEPRECIACION"
-                                                autocomplete="new-DEPRECIACION"
-                                                v-model="articulo.DEPRECIACION"
+                                                name="CODIGOCONTABLE"
+                                                autocomplete="new-CODIGOCONTABLE"
+                                                v-model="articulo.CODIGOCONTABLE"
                                             />
                                         </div>
 
-                                        <!--Categoria-->
+                                        <!--CodigoPresentacion-->
                                         <label
-                                            for="CATEGORIA"
+                                            for="CODIGOPRESENTACION"
                                             class="col-md-2 col-form-label text-md-right"
                                         >
-                                            Categoría
+                                            Codigo Presentacion
                                         </label>
                                         <div class="col-md-4">
                                             <input
-                                                id="CATEGORIA"
-                                                type="text"
+                                                id="CODIGOPRESENTACION"
+                                                type="number"
                                                 class="form-control"
-                                                name="CATEGORIA"
+                                                name="CODIGOPRESENTACION"
                                                 required
-                                                autocomplete="new-CATEGORIA"
-                                                v-model="articulo.CATEGORIA"
+                                                autocomplete="new-CODIGOPRESENTACION"
+                                                v-model="articulo.CODIGOPRESENTACION"
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!--FECHAOBTENCION -->
+                                        <label
+                                            for="FECHAOBTENCION"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Fecha de compra
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="FECHAOBTENCION"
+                                                type="date"
+                                                class="form-control"
+                                                name="FECHAOBTENCION"
+                                                required
+                                                autocomplete="new-FECHAOBTENCION"
+                                                value="2021-01-01"
+                                            />
+                                        </div>
+
+                                        <!--CATEGORIA -->
+                                        <label
+                                            for="CODCATEGORIA"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Categoria
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select required aria-required="true"
+                                                    class="form-control"
+                                                    name="CODCATEGORIA" id="CODCATEGORIA"
+                                                    v-model="articulo.CODCATEGORIA"
+                                            >
+                                                <option value="" disabled selected> seleccione una categoria...</option>
+                                                <option v-for="categoria in categorias" :value="categoria.CODCATEGORIA">{{ categoria.NOMBRE }}</option>
+                                            </select>
+
+                                            <span v-for="error in errors" class="text-danger">
+                                                {{ error.CODROL }}
+                                            </span>
                                         </div>
                                     </div>
 
@@ -212,6 +255,7 @@ export default {
             showModalError: false,
             messageError: "",
             articulo: {},
+            categorias: [],
             errors: [],
             success: false,
             loaded: true,
@@ -219,6 +263,9 @@ export default {
         };
     },
     mounted() {
+        axios.get('categorias').then((response) => {
+            this.categorias = response.data;
+        })
     },
     methods: {
         closeModal() {

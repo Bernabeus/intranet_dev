@@ -114,30 +114,63 @@
                                     >Categoria</label
                                     >
                                     <div class="col-md-6">
-                                        <select required aria-required="true"
-                                                class="form-control"
-                                                name="CODCAT" id="CODCAT"
-                                                v-model="fields.CODCATEGORIA"
-                                        >
-                                            <option value="" disabled selected> seleccione una categoria...</option>
-                                            <option v-for="rol in roles" :value="categoria.CODCATEGORIA">{{ categoria.NOMBRE }}</option>
-                                        </select>
+                                        <input
+                                            v-model="articulo.CODCATEGORIA.NOMBRE"
+                                            type="text"
+                                            class="form-control"
+                                            id="CATEGORIA"
+                                            placeholder="Categoria"
+                                        />
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <label
-                                        for="DEPRECIACION"
+                                        for="CODIGOCONTABLE"
                                         class="col-md-4 col-form-label text-md-right"
-                                    >Depreciacion</label
+                                    >CODIGO CONTABLE</label
                                     >
                                     <div class="col-md-6">
                                         <input
-                                            v-model="articulo.DEPRECIACION"
+                                            v-model="articulo.CODIGOCONTABLE"
                                             type="text"
                                             class="form-control"
-                                            id="DEPRECIACION"
-                                            placeholder="Depreciacion"
+                                            id="CODIGOCONTABLE"
+                                            placeholder="CodigoContable"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label
+                                        for="CODIGOPRESENTACION"
+                                        class="col-md-4 col-form-label text-md-right"
+                                    >CODIGO PRESENTACION</label
+                                    >
+                                    <div class="col-md-6">
+                                        <input
+                                            v-model="articulo.CODIGOPRESENTACION"
+                                            type="text"
+                                            class="form-control"
+                                            id="CODIGOPRESENTACION"
+                                            placeholder="CodigoPresentacion"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label
+                                        for="FECHAOBTENCION"
+                                        class="col-md-4 col-form-label text-md-right"
+                                    >FECHA DE COMPRA</label
+                                    >
+                                    <div class="col-md-6">
+                                        <input
+                                            v-model="articulo.FECHAOBTENCION"
+                                            type="text"
+                                            class="form-control"
+                                            id="FECHAOBTENCION"
+                                            placeholder="FechaObtencion"
                                         />
                                     </div>
                                 </div>
@@ -268,9 +301,11 @@ export default {
                 {text: "Nombre", value: "NOMBRE"},
                 {text: "Precio", value: "PRECIO"},
                 {text: "Descripción", value: "DESCRIPCION", sortable: false},
-                {text: "NSerie", value: "NSERIE"},
-                {text: "Depreciación", value: "DEPRECIACION"},
-                {text: "Categoria", value: "CATEGORIA", sortable: false},
+                {text: "Numero de serie", value: "NSERIE"},
+                {text: "Codigo Presentacion", value: "CODIGOPRESENTACION"},
+                {text: "Codigo Contable", value: "CODIGOCONTABLE"},
+                {text: "Fecha de compra", value: "FECHAOBTENCION"},
+                {text: "Categoria", value: "CODCATEGORIA.NOMBRE", sortable: false},
                 {
                     text: "Ubicación",
                     value: "CODUBICACION.NOMBRE",
@@ -286,9 +321,10 @@ export default {
                 NOMBRE: "",
                 PRECIO: "",
                 DESCRIPCION: "",
-                NSERIE: "",
-                CATEGORIA: "",
-                DEPRECIACION: ""
+                CODIGOPRESENTACION: "",
+                CODIGOCONTABLE: "",
+                FECHAOBTENCION: "",
+                NSERIE: ""
             },
             search: "",
             articulos: [],

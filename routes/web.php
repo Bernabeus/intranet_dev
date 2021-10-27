@@ -25,6 +25,8 @@ Route::post('registro', [App\Http\Controllers\RegisterController::class, 'create
 
 Route::get('roles', [App\Http\Controllers\ControllerRol::class, 'index'])->name('roles')->middleware('auth');
 
+Route::get('categorias', [App\Http\Controllers\ControllerCategoriaArticulo::class, 'index'])->name('categorias')->middleware('auth');
+
 Route::get('perfil', [App\Http\Controllers\HomeController::class, 'index'])->name('perfil')->middleware('auth');
 
 Route::get('pagos', [App\Http\Controllers\HomeController::class, 'index'])->name('pagos')->middleware('auth');
@@ -47,6 +49,7 @@ Route::get('articulos', [App\Http\Controllers\HomeController::class, 'index'])->
 Route::get('lista_articulos', [App\Http\Controllers\ControllerArticulo::class, 'index'])->name('articulos')->middleware('auth');
 Route::post('articulo', [App\Http\Controllers\ControllerArticulo::class, 'create'])->middleware('auth');
 Route::put('articulos/{id}', [App\Http\Controllers\ControllerArticulo::class, 'update'])->name('articulos')->middleware('auth');
+
 
 
 Route::post('detalle_asignacion', [App\Http\Controllers\ControllerDetalleAsignacion::class, 'create'])->middleware('auth');
