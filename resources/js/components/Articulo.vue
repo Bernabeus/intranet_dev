@@ -109,18 +109,30 @@
 
                                 <div class="row">
                                     <label
-                                        for="CATEGORIA"
+                                        for="CODCATEGORIA"
                                         class="col-md-4 col-form-label text-md-right"
                                     >Categoria</label
                                     >
                                     <div class="col-md-6">
-                                        <input
-                                            v-model="articulo.CODCATEGORIA.NOMBRE"
-                                            type="text"
+                                        <select
+                                            required
+                                            aria-required="true"
                                             class="form-control"
-                                            id="CATEGORIA"
-                                            placeholder="Categoria"
-                                        />
+                                            name="CODCATEGORIA"
+                                            id="CODCATEGORIA"
+                                            v-model="articulo.CODCATEGORIA"
+                                        >
+                                            <option
+                                                value=""
+                                                disabled
+                                                selected
+                                            >
+                                                seleccione una categoria...</option>
+                                            <option v-for="categoria in categorias" :value="categoria.CODCATEGORIA">{{ categoria.NOMBRE }}</option>
+                                        </select>
+                                        <span v-for="error in errors" class="text-danger">
+                                                {{ error.CODCATEGORIA }}
+                                            </span>
                                     </div>
                                 </div>
 
@@ -328,12 +340,19 @@ export default {
             },
             search: "",
             articulos: [],
+            categorias: [],
             selectItems: [],
+            errors: [],
             disabledCount: 0,
             show: false,
             showModalError: false,
             messageError: "",
         };
+    },
+    mounted() {
+        axios.get('categorias').then((response) => {
+            this.categorias = response.data;
+        })
     },
     methods: {
         listar() {
@@ -367,8 +386,9 @@ export default {
             this.articulo.PRECIO = data.PRECIO;
             this.articulo.DESCRIPCION = data.DESCRIPCION;
             this.articulo.NSERIE = data.NSERIE;
-            this.articulo.CATEGORIA = data.CATEGORIA;
-            this.articulo.DEPRECIACION = data.DEPRECIACION;
+            this.articulo.CATEGORIA = data.CODCATEGORIA;
+            this.articulo.CODIGOCONTABLE = data.CODIGOCONTABLE;
+            this.articulo.CODIGOPRESENTACION = data.CODIGOPRESENTACION;
         },
         closeModal() {
             this.modal = 0;

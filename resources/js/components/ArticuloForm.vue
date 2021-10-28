@@ -110,10 +110,10 @@
                                         <div class="col-md-4">
                                             <input
                                                 id="CODIGOCONTABLE"
-                                                required
                                                 type="number"
                                                 class="form-control"
                                                 name="CODIGOCONTABLE"
+                                                required
                                                 autocomplete="new-CODIGOCONTABLE"
                                                 v-model="articulo.CODIGOCONTABLE"
                                             />
@@ -177,7 +177,7 @@
                                             </select>
 
                                             <span v-for="error in errors" class="text-danger">
-                                                {{ error.CODROL }}
+                                                {{ error.CODCATEGORIA }}
                                             </span>
                                         </div>
                                     </div>
@@ -285,6 +285,7 @@ export default {
         },
 
         submit() {
+
             if (this.loaded) {
                 this.success = false;
                 this.errors = {};
