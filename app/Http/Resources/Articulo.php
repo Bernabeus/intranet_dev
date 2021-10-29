@@ -6,6 +6,7 @@ use App\Models\DetalleAsignacion;
 use App\Models\Empleado;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Ubicacion;
+use App\Models\CategoriaArticulo;
 
 class Articulo extends JsonResource
 {
@@ -31,7 +32,7 @@ class Articulo extends JsonResource
             'CODUBICACION' => Ubicacion::find($this->CODUBICACION),
             'CODDETASIG' => $this->CODDETASIG,
             'CODDETBAJA' => $this->CODDETBAJA,
-            'CODCATEGORIA' => $this->CODCATEGORIA,
+            'CODCATEGORIA' => CategoriaArticulo::find($this->CODCATEGORIA),
             'CODIGOPRESENTACION' => $this->CODIGOPRESENTACION,
             'CODIGOCONTABLE' => $this->CODIGOCONTABLE,
             'NOMBRE' => $this->NOMBRE,

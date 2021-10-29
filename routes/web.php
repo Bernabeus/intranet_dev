@@ -26,6 +26,7 @@ Route::post('registro', [App\Http\Controllers\RegisterController::class, 'create
 Route::get('roles', [App\Http\Controllers\ControllerRol::class, 'index'])->name('roles')->middleware('auth');
 
 Route::get('categorias', [App\Http\Controllers\ControllerCategoriaArticulo::class, 'index'])->name('categorias')->middleware('auth');
+Route::get('categorias/{categoria}', [App\Http\Controllers\ControllerCategoriaArticulo::class, 'show'])->name('categorias')->middleware('auth');
 
 Route::get('perfil', [App\Http\Controllers\HomeController::class, 'index'])->name('perfil')->middleware('auth');
 

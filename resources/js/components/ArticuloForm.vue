@@ -100,65 +100,6 @@
                                     </div>
 
                                     <div class="row">
-                                        <!--CodigoContable -->
-                                        <label
-                                            for="CODIGOCONTABLE"
-                                            class="col-md-2 col-form-label text-md-right"
-                                        >
-                                            Codigo Contable
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input
-                                                id="CODIGOCONTABLE"
-                                                type="number"
-                                                class="form-control"
-                                                name="CODIGOCONTABLE"
-                                                required
-                                                autocomplete="new-CODIGOCONTABLE"
-                                                v-model="articulo.CODIGOCONTABLE"
-                                            />
-                                        </div>
-
-                                        <!--CodigoPresentacion-->
-                                        <label
-                                            for="CODIGOPRESENTACION"
-                                            class="col-md-2 col-form-label text-md-right"
-                                        >
-                                            Codigo Presentacion
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input
-                                                id="CODIGOPRESENTACION"
-                                                type="number"
-                                                class="form-control"
-                                                name="CODIGOPRESENTACION"
-                                                required
-                                                autocomplete="new-CODIGOPRESENTACION"
-                                                v-model="articulo.CODIGOPRESENTACION"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <!--FECHAOBTENCION -->
-                                        <label
-                                            for="FECHAOBTENCION"
-                                            class="col-md-2 col-form-label text-md-right"
-                                        >
-                                            Fecha de compra
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input
-                                                id="FECHAOBTENCION"
-                                                type="date"
-                                                class="form-control"
-                                                name="FECHAOBTENCION"
-                                                required
-                                                autocomplete="new-FECHAOBTENCION"
-                                                value="2021-01-01"
-                                            />
-                                        </div>
-
                                         <!--CATEGORIA -->
                                         <label
                                             for="CODCATEGORIA"
@@ -179,6 +120,97 @@
                                             <span v-for="error in errors" class="text-danger">
                                                 {{ error.CODCATEGORIA }}
                                             </span>
+
+                                            <v-btn
+                                                class="btn-blue"
+                                                @click="searchCodigos"
+                                            >
+                                                <v-icon>
+                                                    mdi-magnify
+                                                </v-icon>
+                                            </v-btn>
+                                        </div>
+
+                                        <!--CodigoContable -->
+                                        <label
+                                            for="CODCONTABLE"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Codigo Contable
+                                        </label>
+                                        <div class="col-md-3">
+                                            <input
+                                                id="CODCONTABLE"
+                                                type="text"
+                                                class="form-control"
+                                                name="CODCONTABLE"
+                                                required
+                                                autocomplete="new-CODCONTABLE"
+                                                disabled
+                                                v-model="codigo.CODCONTABLE"
+                                            />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input
+                                                id="CODIGOCONTABLE"
+                                                type="number"
+                                                class="form-control"
+                                                name="CODIGOCONTABLE"
+                                                required
+                                                autocomplete="new-CODIGOCONTABLE"
+                                                v-model="articulo.CODIGOCONTABLE"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!--CodigoPresentacion-->
+                                        <label
+                                            for="CODPRESENTACION"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Codigo Presentacion
+                                        </label>
+                                        <div class="col-md-3">
+                                            <input
+                                                id="CODPRESENTACION"
+                                                type="text"
+                                                class="form-control"
+                                                name="CODPRESENTACION"
+                                                required
+                                                disabled
+                                                autocomplete="new-CODPRESENTACION"
+                                                v-model="codigo.CODPRESENTACION"
+                                            />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input
+                                                id="CODIGOPRESENTACION"
+                                                type="text"
+                                                class="form-control"
+                                                name="CODIGOPRESENTACION"
+                                                required
+                                                autocomplete="new-CODIGOPRESENTACION"
+                                                v-model="articulo.CODIGOPRESENTACION"
+                                            />
+                                        </div>
+
+                                        <!--FECHAOBTENCION -->
+                                        <label
+                                            for="FECHAOBTENCION"
+                                            class="col-md-2 col-form-label text-md-right"
+                                        >
+                                            Fecha de compra
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                id="FECHAOBTENCION"
+                                                type="date"
+                                                class="form-control"
+                                                name="FECHAOBTENCION"
+                                                required
+                                                autocomplete="new-FECHAOBTENCION"
+                                            />
                                         </div>
                                     </div>
 
@@ -254,8 +286,15 @@ export default {
             show: false,
             showModalError: false,
             messageError: "",
-            articulo: {},
+            articulo: {
+                CODCAT: '',
+            },
             categorias: [],
+            codCodigo: '',
+            codigo: {
+                CODCONTABLE: '',
+                CODPRESENTACION:  ''
+            },
             errors: [],
             success: false,
             loaded: true,
@@ -302,7 +341,25 @@ export default {
             } else {
                 this.openModalError("Ocurrio un error");
             }
-        }
+        },
+        searchCodigos() {
+            let cod;
+            this.codigo = [];
+            cod = document.getElementById("CODCATEGORIA").value;
+            this.codCodigo = cod;
+            axios.get(`categorias/${this.codCodigo}`).then((response) => {
+                this.codigo = response.data[0];
+                this.articulo.CODCAT = this.codigo.CODCAT;
+                this.articulo.CODCATEGORIA = cod;
+                this.loaded = true;
+            }).catch(error => {
+                this.loaded = false;
+                this.openModalError('Ocurrio un problema, intentalo de nuevo');
+                if (error.response.status === 422) {
+                    this.errors = error.response.data || [];
+                }
+            });
+        },
     }
 };
 </script>

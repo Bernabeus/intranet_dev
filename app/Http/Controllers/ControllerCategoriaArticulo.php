@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoriaArticulo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControllerCategoriaArticulo extends Controller
 {
@@ -25,7 +26,7 @@ class ControllerCategoriaArticulo extends Controller
 
     public function show($CODCATEGORIA)
     {
-        return CategoriaArticulo::find($CODCATEGORIA);
+        return DB::table('categoria_art')->where('CODCATEGORIA', $CODCATEGORIA)->get();
     }
 
     public function update(Request $request, CategoriaArticulo $id)

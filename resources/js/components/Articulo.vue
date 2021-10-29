@@ -144,7 +144,7 @@
                                     >
                                     <div class="col-md-6">
                                         <input
-                                            v-model="articulo.CODIGOCONTABLE"
+                                            v-model="codigo.CODCONTABLE"
                                             type="text"
                                             class="form-control"
                                             id="CODIGOCONTABLE"
@@ -161,7 +161,7 @@
                                     >
                                     <div class="col-md-6">
                                         <input
-                                            v-model="articulo.CODIGOPRESENTACION"
+                                            v-model="codigo.CODPRESENTACION"
                                             type="text"
                                             class="form-control"
                                             id="CODIGOPRESENTACION"
@@ -179,10 +179,9 @@
                                     <div class="col-md-6">
                                         <input
                                             v-model="articulo.FECHAOBTENCION"
-                                            type="text"
+                                            type="date"
                                             class="form-control"
                                             id="FECHAOBTENCION"
-                                            placeholder="FechaObtencion"
                                         />
                                     </div>
                                 </div>
@@ -316,8 +315,8 @@ export default {
                 {text: "Numero de serie", value: "NSERIE"},
                 {text: "Codigo Presentacion", value: "CODIGOPRESENTACION"},
                 {text: "Codigo Contable", value: "CODIGOCONTABLE"},
-                {text: "Fecha de compra", value: "FECHAOBTENCION"},
-                {text: "Categoria", value: "CODCATEGORIA.NOMBRE", sortable: false},
+                {text: "Fecha de compra", value: "FECHAOBTENIDO"},
+                {text: "Categoria", value: "CATEGORIA"},
                 {
                     text: "Ubicación",
                     value: "CODUBICACION.NOMBRE",
@@ -341,6 +340,11 @@ export default {
             search: "",
             articulos: [],
             categorias: [],
+            codigo: {
+                CODCONTABLE: '',
+                CODPRESENTACION:  ''
+            },
+            codCodigo: '',
             selectItems: [],
             errors: [],
             disabledCount: 0,
@@ -393,6 +397,7 @@ export default {
         closeModal() {
             this.modal = 0;
             this.show = false;
+            this.categoria = [];
         },
         closeModalError() {
             this.showModalError = false;
@@ -426,6 +431,28 @@ export default {
         },
         emptySelect() {
             this.selectItems = [];
+        },
+        searchCodigos() {
+            let cod;
+            this.codigo = [];
+            cod = document.getElementById("CODCATEGORIA").value;
+            this.codEstudiante = cod;
+            axios.get(`estudiantes/${this.codEstudiante}`).then((response) => {
+                if (response.data[0] === undefined) {
+                    this.openModalError('El estudiante no existe');
+                } else {
+                    this.estudiante = response.data[0];
+                    this.pago.CODESTU = this.estudiante.CODESTU;
+                    this.pago.CODBANCO = cod;
+                }
+                this.loaded = true;
+            }).catch(error => {
+                this.loaded = false;
+                this.openModalError('Ocurrio un problema, intentalo de nuevo');
+                if (error.response.status === 422) {
+                    this.errors = error.response.data || [];
+                }
+            });
         },
     },
     created() {
