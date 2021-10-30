@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriaArticulo extends Model
 {
-    protected $fillable =['NOMBRE','PORCENTAJEDEPRECIACION','CATSUPERIOR','CODIGOCONTABLE','CODIGOPRESENTACION'];
+    protected $fillable =['NOMBRE','PORCENTAJEDEPRECIACION','CATSUPERIOR','CODCONTABLE','CODPRESENTACION'];
     protected $primaryKey = 'CODCATEGORIA';
     public $timestamps = false;
     protected $table = 'categoria_art';

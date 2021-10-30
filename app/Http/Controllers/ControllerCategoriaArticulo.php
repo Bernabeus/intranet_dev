@@ -14,8 +14,8 @@ class ControllerCategoriaArticulo extends Controller
             'CODCATEGORIA' => $request->CODCATEGORIA,
             'NOMBRE' => $request->NOMBRE,
             'PORCENTAJEDEPRECIACION' => $request->PORCENTAJEDEPRECIACION,
-            'CODIGOCONTABLE' => $request->CODIGOCONTABLE,
-            'CODIGOPRESENTACION' => $request->CODIGOPRESENTACION,
+            'CODCONTABLE' => $request->CODIGOCONTABLE,
+            'CODPRESENTACION' => $request->CODIGOPRESENTACION,
             'CATSUPERIOR' => $request->CATSUPERIOR,
         ]);
     }

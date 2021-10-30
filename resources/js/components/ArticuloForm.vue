@@ -102,15 +102,17 @@
                                     <div class="row">
                                         <!--CATEGORIA -->
                                         <label
-                                            for="CODCATEGORIA"
+                                            for="SearchCodCategoria"
                                             class="col-md-2 col-form-label text-md-right"
                                         >
                                             Categoria
                                         </label>
-                                        <div class="col-md-4">
-                                            <select required aria-required="true"
+                                        <div class="col-md-3">
+                                            <select
+                                                required aria-required="true"
                                                     class="form-control"
-                                                    name="CODCATEGORIA" id="CODCATEGORIA"
+                                                    name="SearchCodCategoria" id="SearchCodCategoria"
+                                                    autocomplete="new-SearchCodCategoria"
                                                     v-model="articulo.CODCATEGORIA"
                                             >
                                                 <option value="" disabled selected> seleccione una categoria...</option>
@@ -120,7 +122,9 @@
                                             <span v-for="error in errors" class="text-danger">
                                                 {{ error.CODCATEGORIA }}
                                             </span>
+                                        </div>
 
+                                        <div class="col-md-1">
                                             <v-btn
                                                 class="btn-blue"
                                                 @click="searchCodigos"
@@ -138,7 +142,7 @@
                                         >
                                             Codigo Contable
                                         </label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <input
                                                 id="CODCONTABLE"
                                                 type="text"
@@ -147,10 +151,10 @@
                                                 required
                                                 autocomplete="new-CODCONTABLE"
                                                 disabled
-                                                v-model="codigo.CODCONTABLE"
+                                                v-model="categoria_art.CODCONTABLE"
                                             />
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-2">
                                             <input
                                                 id="CODIGOCONTABLE"
                                                 type="number"
@@ -171,7 +175,7 @@
                                         >
                                             Codigo Presentacion
                                         </label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <input
                                                 id="CODPRESENTACION"
                                                 type="text"
@@ -180,10 +184,10 @@
                                                 required
                                                 disabled
                                                 autocomplete="new-CODPRESENTACION"
-                                                v-model="codigo.CODPRESENTACION"
+                                                v-model="categoria_art.CODPRESENTACION"
                                             />
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-2">
                                             <input
                                                 id="CODIGOPRESENTACION"
                                                 type="text"
@@ -210,6 +214,8 @@
                                                 name="FECHAOBTENCION"
                                                 required
                                                 autocomplete="new-FECHAOBTENCION"
+                                                v-model="articulo.FECHAOBTENCION"
+                                                value="2021-01-01"
                                             />
                                         </div>
                                     </div>
@@ -291,7 +297,7 @@ export default {
             },
             categorias: [],
             codCodigo: '',
-            codigo: {
+            categoria_art: {
                 CODCONTABLE: '',
                 CODPRESENTACION:  ''
             },
@@ -310,6 +316,8 @@ export default {
         closeModal() {
             this.show = false;
             this.success = false;
+            this.categoria_art = [];
+            this.loaded = false;
         },
         openModal() {
             this.show = true;
@@ -343,14 +351,15 @@ export default {
             }
         },
         searchCodigos() {
-            let cod;
-            this.codigo = [];
-            cod = document.getElementById("CODCATEGORIA").value;
-            this.codCodigo = cod;
+            let codigos;
+            this.categoria_art = [];
+            codigos = document.getElementById("SearchCodCategoria").value;
+            this.codCodigo = codigos;
             axios.get(`categorias/${this.codCodigo}`).then((response) => {
-                this.codigo = response.data[0];
-                this.articulo.CODCAT = this.codigo.CODCAT;
-                this.articulo.CODCATEGORIA = cod;
+                this.categoria_art = response.data[0];
+                this.articulo.CODCAT = this.categoria_art.CODCAT;
+                this.articulo.CODCATEGORIA = codigos;
+                console.log(codigos);
                 this.loaded = true;
             }).catch(error => {
                 this.loaded = false;

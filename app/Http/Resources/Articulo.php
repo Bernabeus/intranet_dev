@@ -18,6 +18,7 @@ class Articulo extends JsonResource
      */
     public function toArray($request)
     {
+
         if ($this->CODDETASIG !== null) {
             $data = DetalleAsignacion::query()->where('CODDETASIG', $this->CODDETASIG)->select(['CODEMPLEADO'])->get();
             $custodio['NOMBRE'] = Empleado::find($data[0]['CODEMPLEADO'])->NOMBRE . ' ' . Empleado::find($data[0]['CODEMPLEADO'])->APELLIDO;

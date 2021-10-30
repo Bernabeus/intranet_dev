@@ -109,30 +109,37 @@
 
                                 <div class="row">
                                     <label
-                                        for="CODCATEGORIA"
+                                        for="SearchCodCategoria"
                                         class="col-md-4 col-form-label text-md-right"
                                     >Categoria</label
                                     >
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <select
                                             required
                                             aria-required="true"
                                             class="form-control"
-                                            name="CODCATEGORIA"
-                                            id="CODCATEGORIA"
+                                            name="SearchCodCategoria" id="SearchCodCategoria"
+                                            autocomplete="new-SearchCodCategoria"
                                             v-model="articulo.CODCATEGORIA"
                                         >
-                                            <option
-                                                value=""
-                                                disabled
-                                                selected
-                                            >
-                                                seleccione una categoria...</option>
+                                            <option value="" disabled selected> seleccione una categoria...</option>
                                             <option v-for="categoria in categorias" :value="categoria.CODCATEGORIA">{{ categoria.NOMBRE }}</option>
                                         </select>
+
                                         <span v-for="error in errors" class="text-danger">
                                                 {{ error.CODCATEGORIA }}
                                             </span>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <v-btn
+                                            class="btn-blue"
+                                            @click="searchCodigos"
+                                        >
+                                            <v-icon>
+                                                mdi-magnify
+                                            </v-icon>
+                                        </v-btn>
                                     </div>
                                 </div>
 
@@ -140,11 +147,24 @@
                                     <label
                                         for="CODIGOCONTABLE"
                                         class="col-md-4 col-form-label text-md-right"
-                                    >CODIGO CONTABLE</label
+                                    >Codigo Contable</label
                                     >
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <input
-                                            v-model="codigo.CODCONTABLE"
+                                            id="CODCONTABLE"
+                                            type="text"
+                                            class="form-control"
+                                            name="CODCONTABLE"
+                                            required
+                                            autocomplete="new-CODCONTABLE"
+                                            disabled
+                                            v-model="categoria_art.CODCONTABLE"
+                                        />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input
+                                            v-model="articulo.CODIGOCONTABLE"
                                             type="text"
                                             class="form-control"
                                             id="CODIGOCONTABLE"
@@ -157,11 +177,23 @@
                                     <label
                                         for="CODIGOPRESENTACION"
                                         class="col-md-4 col-form-label text-md-right"
-                                    >CODIGO PRESENTACION</label
+                                    >Codigo Presentación</label
                                     >
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <input
-                                            v-model="codigo.CODPRESENTACION"
+                                            id="CODPRESENTACION"
+                                            type="text"
+                                            class="form-control"
+                                            name="CODPRESENTACION"
+                                            required
+                                            disabled
+                                            autocomplete="new-CODPRESENTACION"
+                                            v-model="categoria_art.CODPRESENTACION"
+                                        />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input
+                                            v-model="articulo.CODIGOPRESENTACION"
                                             type="text"
                                             class="form-control"
                                             id="CODIGOPRESENTACION"
@@ -313,10 +345,10 @@ export default {
                 {text: "Precio", value: "PRECIO"},
                 {text: "Descripción", value: "DESCRIPCION", sortable: false},
                 {text: "Numero de serie", value: "NSERIE"},
-                {text: "Codigo Presentacion", value: "CODIGOPRESENTACION"},
-                {text: "Codigo Contable", value: "CODIGOCONTABLE"},
+                {text: "Codigo Presentacion", value:"CODIGOPRESENTACION"},
+                {text: "Codigo Contable", value:"CODIGOCONTABLE"},
                 {text: "Fecha de compra", value: "FECHAOBTENIDO"},
-                {text: "Categoria", value: "CATEGORIA"},
+                {text: "Categoria", value: "CODCATEGORIA.NOMBRE"},
                 {
                     text: "Ubicación",
                     value: "CODUBICACION.NOMBRE",
@@ -335,12 +367,13 @@ export default {
                 CODIGOPRESENTACION: "",
                 CODIGOCONTABLE: "",
                 FECHAOBTENCION: "",
-                NSERIE: ""
+                NSERIE: "",
+                CODCAT: ""
             },
             search: "",
             articulos: [],
             categorias: [],
-            codigo: {
+            categoria_art: {
                 CODCONTABLE: '',
                 CODPRESENTACION:  ''
             },
@@ -349,6 +382,8 @@ export default {
             errors: [],
             disabledCount: 0,
             show: false,
+            success: false,
+            loaded: true,
             showModalError: false,
             messageError: "",
         };
@@ -390,9 +425,10 @@ export default {
             this.articulo.PRECIO = data.PRECIO;
             this.articulo.DESCRIPCION = data.DESCRIPCION;
             this.articulo.NSERIE = data.NSERIE;
-            this.articulo.CATEGORIA = data.CODCATEGORIA;
+            this.articulo.CATEGORIA = data.CODCATEGORIA.NOMBRE;
             this.articulo.CODIGOCONTABLE = data.CODIGOCONTABLE;
             this.articulo.CODIGOPRESENTACION = data.CODIGOPRESENTACION;
+            this.articulo.FECHAOBTENCION = data.FECHAOBTENCION;
         },
         closeModal() {
             this.modal = 0;
@@ -433,18 +469,15 @@ export default {
             this.selectItems = [];
         },
         searchCodigos() {
-            let cod;
-            this.codigo = [];
-            cod = document.getElementById("CODCATEGORIA").value;
-            this.codEstudiante = cod;
-            axios.get(`estudiantes/${this.codEstudiante}`).then((response) => {
-                if (response.data[0] === undefined) {
-                    this.openModalError('El estudiante no existe');
-                } else {
-                    this.estudiante = response.data[0];
-                    this.pago.CODESTU = this.estudiante.CODESTU;
-                    this.pago.CODBANCO = cod;
-                }
+            let codigos;
+            this.categoria_art = [];
+            codigos = document.getElementById("SearchCodCategoria").value;
+            this.codCodigo = codigos;
+            axios.get(`categorias/${this.codCodigo}`).then((response) => {
+                this.categoria_art = response.data[0];
+                this.articulo.CODCAT = this.categoria_art.CODCAT;
+                this.articulo.CODCATEGORIA = codigos;
+                console.log(codigos);
                 this.loaded = true;
             }).catch(error => {
                 this.loaded = false;
